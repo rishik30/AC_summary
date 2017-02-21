@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-// import Select from 'react-select'
-// import 'react-select/dist/react-select.css'
 import {Select} from '../components/select.jsx'
 
 export class Home extends Component {
@@ -35,42 +33,18 @@ export class Home extends Component {
         return(
             <div className="home">
                 <h1>Welcome {this.state.name} !!</h1>
-                {/* <Select
-                    name="read-write"
-                    className="read-write-field"
-                    value={this.state.rWField}
+                <Select
+                    className="field"
                     options={this._options}
-                    simpleValue={true}
-                    onChange={this._onChange}
+                    value={this.state.rWField}
+                    onChange={val=>this._onChange(val)}
                 />
                 <Select
                     name="duration"
                     className="duration-field"
                     value={this.state.duration}
-                    options={[
-                        {value: 'janFeb', label: 'Jan-Feb'},
-                        {value: 'febMar', label: 'Feb-Mar'},
-                        {value: 'marApr', label: 'Mar-Apr'},
-                        {value: 'aprMay', label: 'Apr-May'},
-                        {value: 'mayJune', label: 'May-Jun'},
-                        {value: 'junJul', label: 'Jun-Jul'},
-                        {value: 'julAug', label: 'Jul-Aug'},
-                        {value: 'augSep', label: 'Aug-Sep'},
-                        {value: 'sepOct', label: 'Sep-Oct'},
-                        {value: 'octNov', label: 'Oct-Nov'},
-                        {value: 'novDec', label: 'Nov-Dec'},
-                    ]}
-                    onChange={this._onDurationChange}
-                    multi={this.state.isRead}
-                /> */}
-                <Select
-                    className="field"
-                    options={[
-                        {value: 'Read', label: 'Read'},
-                        {value: 'Write', label: 'Write'}
-                    ]}
-                    value={this.state.rWField}
-                    onChange={val=>this.setState({rWField: val})}
+                    options={this._durations}
+                    onChange={val=>this._onDurationChange(val)}
                 />
             </div>
         )
@@ -83,9 +57,9 @@ export class Home extends Component {
         console.log(val)
     }
 
-    _onDurationChange = (val, selected) => {
+    _onDurationChange = (val) => {
         if(!val) return this.setState({duration: ''})
-        this.setState({duration: val.label})
-        console.log(val, selected)
+        this.setState({duration: val})
+        console.log(val)
     }
 }
