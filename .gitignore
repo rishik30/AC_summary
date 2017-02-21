@@ -1,0 +1,4 @@
+node_modules/
+dest/*.js
+dest/*.json
+dest/*.css
