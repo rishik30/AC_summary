@@ -2,51 +2,52 @@
 
 .select {
     border: 0;
-    margin: 10px 0;
+    margin: 20px 0;
     outline: none;
+    position: relative;
+    width: 70%;
 
     input {
-        // position: relative;
-        width: 100%;
+        width: 97%;
         height: 23px;
         border: 0;
         border-radius: 5px;
         font-size: $p3;
         padding: 5px;
+        border: 1px solid $color_yankees_blue;
     }
 
     ul.options {
-        width: 106%;
-        display: none;
-        // position: absolute;
+        width: 100%;
+        position: absolute;
         bottom: 0;
+        left: 0;
         z-index: 2;
         max-height: 200px;
         overflow-y: scroll;
+        pointer-events: none;
+        transform: translate3d(0, 91%, 0);
         li.option {
             opacity: 0;
-            transform: translateY(-10px);
             background-color: #FFF;
             padding: 5px;
             height: 22px;
             font-size: $p3;
             border-bottom: 1px solid #EEE;
             cursor: pointer;
-            transition: 0.4s ease;
-            pointer-events: none;
+            transition: 0.5s ease;
             display: flex;
             align-items: center;
             &:hover {
-                background-color: lighten(rgba($color_cadet_blue, 0.5), 10);
+                background-color: lighten($color_cadet_blue, 10);
             }
         }
         &.active {
-            display: block;
+            pointer-events: auto;
+            transform: translate3d(0, 100%, 0);
             li.option{
                 opacity: 1;
-                transform: translateY(0);
-                pointer-events: auto;
-                transition: 0.4s ease;
+                transition: 0.5s ease;
             }
         }
     }

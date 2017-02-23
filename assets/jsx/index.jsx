@@ -1,17 +1,5 @@
 import React, {Component} from 'react'
 import {render} from 'react-dom'
-import {Home} from './home/home.jsx'
-import '../scss/index.scss'
+import routes from './router.jsx'
 
-export class App extends Component {
-
-    render() {
-        return(
-            <div className="main">
-                <Home />
-            </div>
-        )
-    }
-}
-
-render(<App />, document.getElementById("my-app"));
+render(routes, document.getElementById("my-app"));

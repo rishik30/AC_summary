@@ -3,19 +3,53 @@
 
 body {
     background-color: lighten($color_mid_blue, 10);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 h1 {
     font-size: 26px;
     text-transform: capitalize;
     color: $color_jasper_red;
+    font-family: $font_nunito;
+    font-weight: 700;
+    span {
+        font-weight: 200;
+    }
+}
+
+p {
+    font-family: $font_raleway;
 }
 
 button:focus, select:focus, textarea:focus, input:focus {
     outline: none;
 }
 
+button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $p3;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: transparent;
+    transition: 0.3s ease-in-out;
+    padding: 10px;
+    margin: 10px 0;
+    text-transform: uppercase;
+    &.submit {
+        border: 2px solid $color_dodger_blue;
+        color: $color_dodger_blue;
+        &:hover {
+            background-color: lighten(rgba($color_cadet_blue, 0.2), 10);
+        }
+    }
+}
+
+//components
 @import './components/select.scss';
+
+//pages
+@import './home.scss';
+@import './duration/duration.scss';

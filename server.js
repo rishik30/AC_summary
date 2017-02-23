@@ -21,7 +21,12 @@ app.use(webpackHotMiddleware(compiler, {
     log: console.log
 }))
 
+//Routes
 app.get('/', (req, res) => {
+    const indexFile = path.join(__dirname, 'dest/index.html');
+    res.sendFile(indexFile);
+});
+app.get('/*', (req, res) => {
     const indexFile = path.join(__dirname, 'dest/index.html');
     res.sendFile(indexFile);
 });

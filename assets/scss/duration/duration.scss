@@ -1,0 +1,65 @@
+.duration {
+    width: 100%;
+
+    .big-calendar {
+        padding: 30px;
+        margin: 30px;
+        background-color: rgba($color_cadet_blue, 0.5);
+
+        .calendar-wrapper {
+            display: flex;
+            flex-direction: column;
+
+            .calendar {
+                display: flex;
+                flex-flow: row wrap;
+                margin: 20px 0;
+
+                .calendar-tile {
+                    flex: 1;
+                    height: 120px;
+                    border: 0.5px solid rgba($color_yankees_blue, 0.5);
+                    background-color: rgba(#FFF, 0.7);
+                    flex-basis: 150px;
+                    max-width: 150px;
+                    padding: 5px;
+                    transition: 0.2s ease-in;
+
+                    .encircle {
+                        width: 25px;
+                        height: 25px;
+                        border-radius: 50%;
+                        background-color: transparent;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-left: auto;
+                        cursor: pointer;
+                    }
+
+                    &:hover {
+                        transition: 0.2s ease-in;
+                        box-shadow: 2px 2px 5px 5px rgba($color_yankees_blue, 0.3);
+
+                        .encircle {
+                            animation: enlarge 0.2s ease-in;
+                            animation-origin: center;
+                            animation-fill-mode: forwards;
+                            color: #FFF;
+                        }
+                        @keyframes enlarge {
+                            from {
+                                background-color: $color_jasper_red;
+                                transform: scale3d(0.2,0.2,0.2);
+                            }
+                            to {
+                                background-color: $color_jasper_red;
+                                transform: scale3d(1,1,1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

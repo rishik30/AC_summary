@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Select} from '../components/select.jsx'
+import {Link, browserHistory} from 'react-router'
 
 export class Home extends Component {
 
@@ -46,6 +47,7 @@ export class Home extends Component {
                     options={this._durations}
                     onChange={val=>this._onDurationChange(val)}
                 />
+                <button className="submit" onClick={this._handleClick}>proceed ></button>
             </div>
         )
     }
@@ -61,5 +63,9 @@ export class Home extends Component {
         if(!val) return this.setState({duration: ''})
         this.setState({duration: val})
         console.log(val)
+    }
+
+    _handleClick = () => {
+        browserHistory.push('duration/'+this.state.rWField+"/"+this.state.duration)
     }
 }
