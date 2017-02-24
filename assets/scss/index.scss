@@ -2,7 +2,12 @@
 @import 'reset';
 
 body {
-    background-color: lighten($color_mid_blue, 10);
+
+}
+
+h1, h2, h3 {
+    font-family: $font_raleway;
+    // line-height: 1.5;
 }
 
 h1 {
@@ -16,8 +21,17 @@ h1 {
     }
 }
 
+h2 {
+    font-size: $h2;
+}
+
+h3 {
+    font-size: $h3;
+}
+
 p {
     font-family: $font_raleway;
+    line-height: 1.5;
 }
 
 button:focus, select:focus, textarea:focus, input:focus {
@@ -31,14 +45,17 @@ button {
     align-items: center;
     font-size: $p3;
     font-weight: 700;
-    border-radius: 20px;
     cursor: pointer;
     background-color: transparent;
     transition: 0.3s ease-in-out;
     padding: 10px;
     margin: 10px 0;
     text-transform: uppercase;
+    outline: none;
+    border: 1px solid $color_yankees_blue;
+    color: $color_yankees_blue;
     &.submit {
+        border-radius: 20px;
         border: 2px solid $color_dodger_blue;
         color: $color_dodger_blue;
         &:hover {
@@ -47,8 +64,15 @@ button {
     }
 }
 
+.inner-window {
+    padding: 30px;
+    margin: 30px;
+    background-color: rgba($color_cadet_blue, 0.5);
+}
+
 //components
-@import './components/select.scss';
+@import './components/elements.scss';
+@import './components/daily-ac-form.scss';
 
 //pages
 @import './home.scss';

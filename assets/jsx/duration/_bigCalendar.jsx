@@ -36,7 +36,7 @@ export class BigCalendar extends Component {
 
     render() {
         return(
-            <div className="big-calendar">
+            <div className="big-calendar inner-window">
                 <div className="calendar-wrapper">
                     <h1>{this.props.duration+" "}<span>{new Date().getFullYear()}</span></h1>
                     <div className="calendar">

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Select} from '../components/select.jsx'
+import {Select} from '../components/elements.jsx'
 import {Link, browserHistory} from 'react-router'
 
 export class Home extends Component {

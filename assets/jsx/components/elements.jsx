@@ -35,3 +35,16 @@ export class Select extends Component {
         this.setState({active: false})
     }
 }
+
+export class RadioElement extends Component {
+
+    render() {
+        let activeClass = (this.props.active) ? 'active' : ''
+        return(
+            <div className={"radio-element " + activeClass}  onClick={this.props.onClick}>
+                <p>{this.props.label}</p>
+                <div className="radio" />
+            </div>
+        )
+    }
+}
