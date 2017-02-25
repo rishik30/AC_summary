@@ -87,9 +87,18 @@
             width: 100px;
             max-width: 100px;
             padding: 7px;
+            display: inline;
+            margin-right: 20px;
             &:hover {
                 background-color: lighten(rgba($color_jasper_red, 0.3), 30);
             }
+        }
+
+        .save {
+            display: inline;
+            margin-right: 20px;
+            max-width: 100px;
+            padding: 5px;
         }
     }
 
