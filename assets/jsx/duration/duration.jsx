@@ -13,6 +13,7 @@ export class Duration extends Component {
             <div className="duration">
                 <BigCalendar
                     duration={this.props.params.months}
+                    type={this.props.params.type}
                 />
             </div>
         )

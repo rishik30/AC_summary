@@ -33,21 +33,23 @@ export class Home extends Component {
     render() {
         return(
             <div className="home">
-                <h1>Welcome {this.state.name} !!</h1>
-                <Select
-                    className="field"
-                    options={this._options}
-                    value={this.state.rWField}
-                    onChange={val=>this._onChange(val)}
-                />
-                <Select
-                    name="duration"
-                    className="duration-field"
-                    value={this.state.duration}
-                    options={this._durations}
-                    onChange={val=>this._onDurationChange(val)}
-                />
-                <button className="submit" onClick={this._handleClick}>proceed ></button>
+                <div className="user-dialogue">
+                    <h1>Welcome {this.state.name} !!</h1>
+                    <Select
+                        className="field"
+                        options={this._options}
+                        value={this.state.rWField}
+                        onChange={val=>this._onChange(val)}
+                    />
+                    <Select
+                        name="duration"
+                        className="duration-field"
+                        value={this.state.duration}
+                        options={this._durations}
+                        onChange={val=>this._onDurationChange(val)}
+                    />
+                    <button className="submit" onClick={this._handleClick}>proceed ></button>
+                </div>
             </div>
         )
     }
@@ -66,6 +68,7 @@ export class Home extends Component {
     }
 
     _handleClick = () => {
+        // document.dispatchEvent(new CustomEvent('activateModal', {detail: 'Hey Modal'}))
         browserHistory.push('duration/'+this.state.rWField+"/"+this.state.duration)
     }
 }

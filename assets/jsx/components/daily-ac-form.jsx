@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import {RadioElement} from './elements.jsx'
+var Client = require('node-rest-client').Client
+var moment = require('moment')
 
 export class DailyACForm extends Component {
 
@@ -9,7 +11,10 @@ export class DailyACForm extends Component {
         debit: false,
         NT: false,
         transactionAmount: 0,
-        dailyAC: [],
+        moneyAdded: 0,
+        walletBalance: 0,
+        accountBalance: 0,
+        dailyTransactionInput: [],
         dailyExpense: []
     }
 
@@ -18,6 +23,8 @@ export class DailyACForm extends Component {
 
     _dailyAC = []
 
+    _allMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
     render() {
         let activeString = (this.state.credit || this.state.debit) ? 'active' : ''
         console.log('expense', this.state.dailyExpense)
@@ -25,7 +32,7 @@ export class DailyACForm extends Component {
         return(
             <div className="daily-ac-form inner-window">
                 <h1>Update Account</h1>
-                <h2 className="date">9 Feb 2017</h2>
+                <h2 className="date">{this.props.params.day + " " + new Date().getFullYear()}</h2>
                 <div className="form">
                     <h2>savings A/C</h2>
                     <div className="radio-input">
@@ -50,9 +57,15 @@ export class DailyACForm extends Component {
                         onChange={val=>this.setState({transactionAmount: val})} />
                     <div className="break" />
                     <h2>Daily Wallet A/C</h2>
-                    {this.state.dailyAC}
+                    <InputField
+                        name="Money added"
+                        className="amount active"
+                        type="number"
+                        value={this.state.moneyAdded}
+                        onChange={val=>this.setState({moneyAdded: val})} />
+                    {this.state.dailyTransactionInput}
                     <button className="add" onClick={this._addDailyInput}>add</button>
-                    <button className="submit save" onClick={e=>console.log(this.state)}>save</button>
+                    <button className="submit save" onClick={this._save}>save</button>
                     <input type="file" />
                 </div>
             </div>
@@ -62,11 +75,31 @@ export class DailyACForm extends Component {
     _addDailyInput = () => {
         let expense = {amount: 0, desc: ""}
         let expenseInput = <DailyInput amountField={val=>expense.amount=val} descriptionField={val=>expense.desc=val} />
-        const inputElm = this.state.dailyAC.concat(expenseInput)
+        const inputElm = this.state.dailyTransactionInput.concat(expenseInput)
         const expenseArr = this.state.dailyExpense.concat(expense)
 
         this.setState({dailyExpense: expenseArr})
-        this.setState({dailyAC: inputElm})
+        this.setState({dailyTransactionInput: inputElm})
+    }
+
+    _save = () => {
+        console.log(JSON.stringify(this.state, null, 2))
+        let currentDate = this.props.params.day.split("-")[0]
+        let numericMonth = this._allMonths.indexOf(this.props.params.day.split("-")[1])+1
+        let year = new Date().getFullYear()
+        let fullDate = new Date(year+'-'+numericMonth+'-'+currentDate)
+        console.log(fullDate)
+        let dateToBePassed = moment(fullDate).toISOString()
+        console.log(dateToBePassed)
+        // if(this.state.)
+        var client = new Client()
+        client.post("http://localhost:3000/saveData", {
+            data: {data: this.state, today: dateToBePassed},
+            headers: {"Content-Type": "application/json"}
+        }, (data, response) => {
+            console.log('Data items', data)
+            console.log('response', response)
+        })
     }
 }
 

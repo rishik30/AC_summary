@@ -1,4 +1,9 @@
 import React, {Component} from 'react'
+import {Link, browserHistory} from 'react-router'
+import 'whatwg-fetch'
+var moment = require('moment')
+
+import {DailyACInfo} from '../components/daily-ac-info.jsx'
 
 export class BigCalendar extends Component {
 
@@ -14,6 +19,8 @@ export class BigCalendar extends Component {
         this._renderCalendar()
         // this.setState({firstMonth: months[0], secondMonth: months[1]})
     }
+
+    _allMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
     _monthWithMoreDays = [
         "Jan",
@@ -34,6 +41,8 @@ export class BigCalendar extends Component {
 
     _days = []
 
+    _months = this.props.duration.split("-")
+
     render() {
         return(
             <div className="big-calendar inner-window">
@@ -43,10 +52,10 @@ export class BigCalendar extends Component {
 
                         {this._days.map((day, i) => {
                             return(
-                                <div className="calendar-tile">
-                                    {/* <h3>{this.state.firstMonth}</h3> */}
+                                <div className="calendar-tile" key={i}>
                                     <div className="encircle">
-                                        <p>{day}</p>
+                                        {/* {this._returnField(day)} */}
+                                        <p onClick={e=>this._handleClick(e, day)}>{day}</p>
                                     </div>
                                 </div>
                             )
@@ -55,6 +64,11 @@ export class BigCalendar extends Component {
                 </div>
             </div>
         )
+    }
+
+    _returnMonth = (day) => {
+        if(parseInt(day)>=16) return this._months[0]
+        else return this._months[1]
     }
 
     _returnDays = (month) => {
@@ -67,7 +81,7 @@ export class BigCalendar extends Component {
     }
 
     _renderCalendar = () => {
-        let firstMonth = this.props.duration.split('-')[0]
+        let firstMonth = this._months[0]
         let allDays = this._returnDays(firstMonth)
         let date = this.state.startDate
         while(date<=allDays) {
@@ -76,10 +90,40 @@ export class BigCalendar extends Component {
         }
         console.log(this._days)
         let init = 1
-        while(init<=16) {
+        while(init<16) {
             this._days.push(init)
             init+=1
         }
         this.setState({firstMonth, days: this._days})
     }
+
+    _handleClick = (e, day) => {
+        let month = this._returnMonth(day)
+        let numericMonth = this._allMonths.indexOf(month)+1
+        let year = new Date().getFullYear()
+        if(this.props.type == "Read") {
+            // browserHistory.push("/duration/Read/"+this.props.duration+"/"+day)
+            // return <p>{day}</p>
+            this._showDetails(day, numericMonth, year)
+        }
+        else browserHistory.push("/daily-ac/"+day+"-"+month)
+    }
+
+    _showDetails = (date, month, year) => {
+        let fullDate = new Date(year+'-'+month+'-'+date)
+        let dateToBePassed = moment(fullDate).toISOString()
+        console.log(fullDate)
+        console.log(dateToBePassed)
+        let url = '/getData/'+dateToBePassed
+        fetch(url)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data', data)
+                document.dispatchEvent(new CustomEvent('activateModal', {detail: (<DailyACInfo data={data} />)}))
+            })
+            .catch(e=>console.log('error', e))
+
+
+    }
+
 }

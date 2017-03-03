@@ -3,7 +3,7 @@
 
 body {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-color: lighten(rgba($color_dodger_blue, 0.3), 30);
 }
 
@@ -75,6 +75,7 @@ button {
 //components
 @import './components/elements.scss';
 @import './components/daily-ac-form.scss';
+@import './components/modal.scss';
 
 //pages
 @import './home.scss';

@@ -14,11 +14,58 @@ var SavingsAC = mongoose.model('SavingsAC', {
         default: null,
     }
 })
+
+var Data = mongoose.model('Data', {
+    items: {
+        // type: Object,
+        credit: {
+            type: Boolean,
+            default: false
+        },
+        dedit: {
+            type: Boolean,
+            default: false
+        },
+        NT: {
+            type: Boolean,
+            default: false
+        },
+        transactionAmount: {
+            type: Number,
+            default: 0,
+        },
+        moneyAdded: {
+            type: Number,
+            default: 0,
+            required: true
+        },
+        walletBalance: {
+            type: Number,
+            default: 0,
+            required: true
+        },
+        accountBalance: {
+            type: Number,
+            default: 0,
+            required: true
+        },
+        dailyExpense: {
+            type: Array
+        }
+    },
+    dateCreated: {
+        type: Date,
+        default: Date.now,
+        required: true
+    }
+})
+
 var saveSavAc = (req, res) => {
-    var savingsAc = new SavingsAC({debit: 100, credit: 200})
+    var savingsAc = new SavingsAC(req.body)
     savingsAc.save()
     .then((doc) => {
         console.log('doc', doc)
+        res.status(200).send(doc)
     })
     .catch((err) => {
         console.log('err', err)
@@ -26,5 +73,6 @@ var saveSavAc = (req, res) => {
 }
 
 module.exports = {
-    saveSavAc
+    saveSavAc,
+    Data
 }

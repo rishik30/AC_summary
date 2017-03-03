@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Modal} from './components/modal.jsx'
 import '../scss/index.scss'
 var WebFont = require('webfontloader')
 
@@ -15,8 +16,8 @@ export class App extends Component {
     render() {
         return(
             <div className="main">
-                {/* <Home /> */}
                 {this.props.children}
+                <Modal />
             </div>
         )
     }
