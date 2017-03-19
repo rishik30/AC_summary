@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router'
+import 'whatwg-fetch'
 import {RadioElement} from './elements.jsx'
 var Client = require('node-rest-client').Client
 var moment = require('moment')
@@ -7,10 +9,11 @@ export class DailyACForm extends Component {
 
     state = {
         field: '',
-        credit: false,
-        debit: false,
+        isCredit: false,
+        isDebit: false,
         NT: false,
         transactionAmount: 0,
+        transactionDesc: '',
         moneyAdded: 0,
         walletBalance: 0,
         accountBalance: 0,
@@ -19,14 +22,15 @@ export class DailyACForm extends Component {
     }
 
     componentDidMount() {
+        // fetch()
     }
 
-    _dailyAC = []
+    _dailyBankTrans = {amount: 0, desc: ''}
 
     _allMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
     render() {
-        let activeString = (this.state.credit || this.state.debit) ? 'active' : ''
+        let activeString = (this.state.isCredit || this.state.isDebit) ? 'active' : ''
         console.log('expense', this.state.dailyExpense)
 
         return(
@@ -38,23 +42,26 @@ export class DailyACForm extends Component {
                     <div className="radio-input">
                         <RadioElement
                             label="credit"
-                            active={this.state.credit}
-                            onClick={e=>this.setState({credit: true, debit:false, NT:false})} />
+                            active={this.state.isCredit}
+                            onClick={e=>this.setState({isCredit: true, isDebit:false, NT:false})} />
                         <RadioElement
                             label="debit"
-                            active={this.state.debit}
-                            onClick={e=>this.setState({credit: false, debit: true, NT: false})} />
+                            active={this.state.isDebit}
+                            onClick={e=>this.setState({isCredit: false, isDebit: true, NT: false})} />
                         <RadioElement
                             label="no transaction"
                             active={this.state.NT}
-                            onClick={e=>this.setState({credit: false, debit: false, NT: true})} />
+                            onClick={e=>this.setState({isCredit: false, isDebit: false, NT: true})} />
                     </div>
-                    <InputField
+                    {/* <InputField
                         name="amount"
                         className={"amount " + activeString}
                         type="number"
                         value={this.state.transactionAmount}
-                        onChange={val=>this.setState({transactionAmount: val})} />
+                        onChange={val=>this.setState({transactionAmount: val})} /> */}
+                    <DailyInput
+                        className={"amount " + activeString} amountField={val=>this.setState({transactionAmount: val})} descriptionField={val=>this.setState({transactionDesc: val})}
+                    />
                     <div className="break" />
                     <h2>Daily Wallet A/C</h2>
                     <InputField
@@ -65,7 +72,7 @@ export class DailyACForm extends Component {
                         onChange={val=>this.setState({moneyAdded: val})} />
                     {this.state.dailyTransactionInput}
                     <button className="add" onClick={this._addDailyInput}>add</button>
-                    <button className="submit save" onClick={this._save}>save</button>
+                    <button className="submit save" onClick={this._submit}>save</button>
                     <input type="file" />
                 </div>
             </div>
@@ -82,8 +89,28 @@ export class DailyACForm extends Component {
         this.setState({dailyTransactionInput: inputElm})
     }
 
+    _calculateBalance = () => {
+        let accountBalance = parseInt(this.state.accountBalance)
+        let walletBalance = this.state.walletBalance
+        let dailyExp = 0
+        this.state.dailyExpense.map((exp, i) => dailyExp += parseInt(exp.amount))
+        if(this.state.isCredit) accountBalance += parseInt(this.state.transactionAmount)
+        if(this.state.isDebit) accountBalance -= parseInt(this.state.transactionAmount)
+        walletBalance = (walletBalance + this.state.moneyAdded) - dailyExp
+        console.log(accountBalance, walletBalance, dailyExp)
+        this.setState({accountBalance, walletBalance})
+    }
+
+    _submit = () => {
+        console.log(this.state)
+        this._calculateBalance()
+        setTimeout(()=>{
+            console.log('after', this.state)
+            this._save()
+        }, 100)
+    }
+
     _save = () => {
-        console.log(JSON.stringify(this.state, null, 2))
         let currentDate = this.props.params.day.split("-")[0]
         let numericMonth = this._allMonths.indexOf(this.props.params.day.split("-")[1])+1
         let year = new Date().getFullYear()
@@ -98,7 +125,8 @@ export class DailyACForm extends Component {
             headers: {"Content-Type": "application/json"}
         }, (data, response) => {
             console.log('Data items', data)
-            console.log('response', response)
+            console.log('response success', response)
+            document.dispatchEvent(new CustomEvent('activateModal', {detail: (<Success />)}))
         })
     }
 }
@@ -110,13 +138,13 @@ class DailyInput extends Component {
             <div className="daily-input">
                 <InputField
                     name="amount"
-                    className="daily-input-item"
+                    className={"daily-input-item "+this.props.className}
                     type="number"
                     // value={this.props.amount}
                     onChange={val=>this.props.amountField(val)} />
                 <InputField
                     name="description"
-                    className="daily-input-item"
+                    className={"daily-input-item "+this.props.className}
                     type="text"
                     // value={this.props.description}
                     onChange={val=>this.props.descriptionField(val)} />
@@ -132,6 +160,19 @@ class InputField extends Component {
             <div className={"input-field " + this.props.className}>
                 <label>{this.props.name}</label>
                 <input type={this.props.type} value={this.props.value} onChange={e=>this.props.onChange(e.target.value)} />
+            </div>
+        )
+    }
+}
+
+class Success extends Component {
+
+    render() {
+        return(
+            <div className="success">
+                <h3>Your details are saved successfully !!</h3>
+                <p>Go to Home.. Click Below</p>
+                <Link to="/"><button className="add" onClick={e=>document.dispatchEvent(new CustomEvent('deactivateModal'))}>home</button></Link>
             </div>
         )
     }

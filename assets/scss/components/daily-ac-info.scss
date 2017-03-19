@@ -1,0 +1,49 @@
+.daily-ac-info {
+
+    h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .account-wrapper {
+        display: flex;
+        flex-flow: row wrap;
+
+        .info {
+            flex: 1;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            h3 {
+                margin: 10px 0;
+                text-transform: uppercase;
+                font-weight: 500;
+                letter-spacing: 1px;
+                text-align: center;
+            }
+
+            .details {
+                margin: 10px auto;
+
+                p {
+                    font-weight: 500;
+                    opacity: 0.7;
+                    margin: 10px;
+                    em {
+                        font-weight: 200;
+                    }
+                }
+            }
+        }
+
+        .break {
+            width: 1px;
+            background-color: #DDD;
+            margin: 10px;
+        }
+    }
+}

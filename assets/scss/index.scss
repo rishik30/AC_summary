@@ -8,7 +8,7 @@ body {
 }
 
 h1, h2, h3 {
-    font-family: $font_raleway;
+    font-family: $font_nunito;
     // line-height: 1.5;
 }
 
@@ -32,7 +32,7 @@ h3 {
 }
 
 p {
-    font-family: $font_raleway;
+    font-family: $font_muli;
     line-height: 1.5;
 }
 
@@ -72,10 +72,18 @@ button {
     background-color: rgba($color_cadet_blue, 0.5);
 }
 
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 //components
 @import './components/elements.scss';
 @import './components/daily-ac-form.scss';
 @import './components/modal.scss';
+@import './components/loader.scss';
+@import './components/daily-ac-info.scss';
 
 //pages
 @import './home.scss';

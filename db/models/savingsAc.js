@@ -18,11 +18,11 @@ var SavingsAC = mongoose.model('SavingsAC', {
 var Data = mongoose.model('Data', {
     items: {
         // type: Object,
-        credit: {
+        isDebit: {
             type: Boolean,
             default: false
         },
-        dedit: {
+        isCredit: {
             type: Boolean,
             default: false
         },
@@ -33,6 +33,10 @@ var Data = mongoose.model('Data', {
         transactionAmount: {
             type: Number,
             default: 0,
+        },
+        transactionDesc: {
+            type: String,
+            default: null,
         },
         moneyAdded: {
             type: Number,
