@@ -12,6 +12,7 @@ const config = require('./webpack.config.js')
 require('./db/db-connect.js')
 var savingsAc = require('./db/models/savingsAc.js').saveSavAc
 var Data = require('./db/models/savingsAc.js').Data
+var User = require('./db/models/user.js').User
 
 const port = process.env.PORT || 3000;
 var app = express();
@@ -70,6 +71,22 @@ app.get('/*', (req, res) => {
     const indexFile = path.join(__dirname, 'dest/index.html');
     res.sendFile(indexFile);
 });
+
+app.post('/users', (req, res) => {
+    var user = new User(req.body)
+    user.save()
+        .then((obj) => {
+            console.log('USER', obj)
+            return user.generateAuthToken()
+        })
+        .then((token) => {
+            res.status(200).header('x-auth', token).send(user)
+        })
+        .catch(e=>{
+            console.log('ERROR', e)
+            res.send(e)
+        })
+})
 
 app.use('/', router)
 
