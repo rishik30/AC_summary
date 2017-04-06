@@ -13,6 +13,7 @@ require('./db/db-connect.js')
 var savingsAc = require('./db/models/savingsAc.js').saveSavAc
 var Data = require('./db/models/savingsAc.js').Data
 var User = require('./db/models/user.js').User
+var authenticate = require('./middleware/authenticate.js')
 
 const port = process.env.PORT || 3000;
 var app = express();
@@ -62,6 +63,10 @@ app.get('/getData/:day', (req, res) => {
         .catch(e=>res.send(e))
 })
 
+app.get('/users/me', authenticate, (req, res) => {
+    res.send(req.user)
+})
+
 app.get('/', (req, res) => {
     const indexFile = path.join(__dirname, 'dest/index.html');
     res.sendFile(indexFile);
@@ -87,6 +92,7 @@ app.post('/users', (req, res) => {
             res.send(e)
         })
 })
+
 
 app.use('/', router)
 
