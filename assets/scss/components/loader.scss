@@ -5,12 +5,62 @@
     width: 100vw;
     height: 100vh;
     z-index: 1111;
-    background-color: rgba($color_dodger_blue, 0.8);
+    background-color: rgba($color_dodger_blue, 0.95);
     opacity: 0;
     pointer-events: none;
     transition: 0.4s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &.active {
         opacity: 1;
+    }
+
+    svg {
+        width: 300px;
+        height: auto;
+
+        @for $i from 1 through 4 {
+            g#note#{$i} {
+                opacity: 0;
+                transform: translate3d(0, -50px, 0);
+                transform-origin: center;
+                animation: fall 1.2s ease-in-out infinite;
+                animation-delay: $i * -0.3s;
+            }
+        }
+
+        @for $i from 1 through 5 {
+            g#coin#{$i} {
+                opacity: 0;
+                transform: translate3d(0, -50px, 0);
+                transform-origin: center;
+                animation: fall 1.5s ease-in-out infinite;
+                animation-delay: $i * -0.3s;
+            }
+        }
+    }
+
+    @keyframes fall {
+        0% {
+            opacity: 0;
+            transform: translate3d(0, -50px, 0);
+        }
+        25% {
+            opacity: 1;
+            // transform: translate3d(0, 10px, 0);
+        }
+        50% {
+            opacity: 1;
+            // transform: translate3d(0, 0px, 0);
+        }
+        75% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: translate3d(0, 20px, 0);
+        }
     }
 }

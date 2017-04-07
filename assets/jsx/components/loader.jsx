@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Svg} from './svg.jsx'
 
 export default class Loader extends Component {
 
@@ -16,7 +17,7 @@ export default class Loader extends Component {
         let activeClass = (this.state.active)?("active"):("")
         return(
             <div className={"loader " + activeClass}>
-
+                <Svg src="/img/coin-icon.svg" />
             </div>
         )
     }
